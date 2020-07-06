@@ -93,4 +93,33 @@ function draw_cities(){
     })
 }
 
+d3.selectAll('#buttons button').on('click', function(){
+    var offset = projection.translate();
+    var distance = 100;
+    var direction = d3.select(this).attr('class');
+
+    if(direction == "up"){
+        offset[1] += distance; //increase y offset
+    }else if(direction == "down"){
+        offset[1] -= distance; //decrease y offset
+    }else if(direction == "left"){
+        offset[0] += distance; //increase x offset
+    }else if(direction == "right"){
+        offset[0] -= distance; //decrease x offset
+    }
+
+    projection.translate(offset);
+
+    svg.selectAll('path')
+        .attr('d', path);
+
+    svg.selectAll('circle')
+        .attr('cx', function(d){
+            return projection([d.lon, d.lat])[0];
+        })
+        .attr("cy", function(d){
+            return projection([d.lon, d.lat])[1];
+        })
+
+})
 
