@@ -27,14 +27,23 @@ var svg = d3.select("#chart")
             .attr("height", chart_height);
 
 
-var drag_map = d3.drag().on('drag', function(){
+var zoom_map = d3.zoom().on('zoom', function(){
     // console.log(d3.event);
 
-    var offset = projection.translate();
-    offset[0] += d3.event.dx;
-    offset[1] += d3.event.dy;
+    var offset = [
+        d3.event.transform.x,
+        d3.event.transform.y
+    ];
 
-    projection.translate(offset);
+    // offset[0] += d3.event.dx;
+    // offset[1] += d3.event.dy;
+
+    //default value of the projection is 2000
+    var scale = d3.event.transform.k * 2000;
+
+    projection.translate(offset)
+                .scale(scale);
+
 
     svg.selectAll('path')
     .transition()
@@ -57,7 +66,7 @@ var drag_map = d3.drag().on('drag', function(){
 
 var map = svg.append('g')
              .attr("id","map")
-             .call(drag_map);
+             .call(zoom_map);
 
 map.append('rect')
     .attr('x',0)
