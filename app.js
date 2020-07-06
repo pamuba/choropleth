@@ -59,6 +59,13 @@ var map = svg.append('g')
              .attr("id","map")
              .call(drag_map);
 
+map.append('rect')
+    .attr('x',0)
+    .attr('y',0)
+    .attr('opacity',0)
+    .attr('height',chart_height)
+    .attr('width', chart_width)
+
 
 //Data
 d3.json('zombie-attacks.json').then(function(zombie_data){
